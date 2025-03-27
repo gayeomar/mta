@@ -1,0 +1,33 @@
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  generateName: clone-build-push-run-
+spec:
+  serviceAccountName: pipeline
+  pipelineRef:
+    name: clone-build-push
+  #podTemplate:
+    #securityContext:
+      #fsGroup: 65532
+  workspaces:
+    - name: shared-data
+      volumeClaimTemplate:
+        spec:
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 1Gi
+    - name: ssh-key
+      secret:
+        secretName: ssh-key
+    - name: docker-credentials
+      secret:
+        secretName: docker-credentials
+  params:
+    - name: repo-url
+      value: git@github.com:gayeomar/mta.git
+    - name: image-reference
+      value: quay.io/deguene-admin/mta-cli-og-test:1.1
+    #- name: DOCKERFILE
+      #value: ./02_tracing/service-03/Dockerfile
