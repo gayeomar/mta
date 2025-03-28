@@ -1,7 +1,8 @@
 apiVersion: tekton.dev/v1beta1
 kind: PipelineRun
 metadata:
-  generateName: clone-build-push-run-
+  #generateName: clone-build-push-run-
+  name: mta-run
 spec:
   serviceAccountName: pipeline
   pipelineRef:
@@ -29,5 +30,7 @@ spec:
       value: git@github.com:gayeomar/mta.git
     - name: image-reference
       value: quay.io/deguene-admin/mta-cli-og-test:1.1
-    #- name: DOCKERFILE
-      #value: ./02_tracing/service-03/Dockerfile
+    - name: DOCKERFILE
+      value: Dockerfile
+    - name: CONTEXT
+      value: ./

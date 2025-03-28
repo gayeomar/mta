@@ -1,0 +1,17 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: analyze-task
+spec:
+  steps:
+    - name: analyze
+      image: quay.io/deguene-admin/mta-cli-og-test:1.1
+      script: |
+        #!/bin/sh
+        echo "Hello, World!"
+        echo "------"
+        pwd
+        echo "------"
+        ls -l ./source
+        cd source
+        ./mta-cli-amd64 analyze --input ./fernflower.jar --output ./out --overwrite

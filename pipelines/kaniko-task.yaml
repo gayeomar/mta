@@ -20,10 +20,10 @@ spec:
       description: Name (reference) of the image to build.
     - name: DOCKERFILE
       description: Path to the Dockerfile to build.
-      default: ./Dockerfile
+      default: Dockerfile
     - name: CONTEXT
       description: The build context used by Kaniko.
-      default: ./
+      default: .
     - name: EXTRA_ARGS
       type: array
       default: []
@@ -44,13 +44,12 @@ spec:
       description: URL of the image just built.
   steps:
     - name: build-and-push
-      #workingDir: $(workspaces.source.path)
-      workingDir: $(workspaces.source.path)/02_tracing/service-03
+      workingDir: $(workspaces.source.path)
       image: $(params.BUILDER_IMAGE)
       args:
         - $(params.EXTRA_ARGS)
-        - --dockerfile=$(params.DOCKERFILE)
-        - --context=$(workspaces.source.path)/02_tracing/service-03/$(params.CONTEXT) # The user does not need to care the workspace and the source.
+        - --dockerfile=Dockerfile
+        - --context=$(workspaces.source.path) # The user does not need to care the workspace and the source.
         - --destination=$(params.IMAGE)
         - --digest-file=$(results.IMAGE_DIGEST.path)
       # kaniko assumes it is running as root, which means this example fails on platforms
