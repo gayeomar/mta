@@ -27,15 +27,7 @@ spec:
       params:
         - name: url
           value: $(params.repo-url)
-    #- name: build-jvm
-      #runAfter: ["fetch-source"]
-      #taskRef:
-        #name: build-jvm
-      #workspaces:
-        #- name: src-build-workspace
-          #workspace: shared-data
     - name: build-push
-      #runAfter: ["build-jvm"]
       taskRef:
         name: kaniko
       workspaces:
